@@ -1,0 +1,8 @@
+SELECT (cast("epilims"."errbs_pipeline_statistics"."'total_reads'" as int)/1000000) AS "'million_total_reads'", avg(cast("epilims"."errbs_pipeline_statistics"."'number_of_CpGs_covered_10x'" as float) / (cast("epilims"."errbs_pipeline_statistics"."'total_reads'" as int)/1000000)) AS "avg", count(*) AS "count"
+FROM "epilims"."errbs_pipeline_statistics"
+WHERE (date_trunc('year', CAST("epilims"."errbs_pipeline_statistics"."'MiniLIMS Date Created'" AS timestamp)) BETWEEN date_trunc('year', CAST((CAST(now() AS timestamp) + (INTERVAL '-10 year')) AS timestamp))
+   AND date_trunc('year', CAST((CAST(now() AS timestamp) + (INTERVAL '-1 year')) AS timestamp)) AND ("epilims"."errbs_pipeline_statistics"."'total_reads'" <> 'NA' AND cast("epilims"."errbs_pipeline_statistics"."'total_reads'" as int) < 250000000
+    OR "epilims"."errbs_pipeline_statistics"."'total_reads'" IS NULL) AND "epilims"."errbs_pipeline_statistics"."'total_reads'" IS NOT NULL AND ("epilims"."errbs_pipeline_statistics"."'total_reads'" <> '' OR "epilims"."errbs_pipeline_statistics"."'total_reads'" IS NULL))
+   AND ("epilims"."errbs_pipeline_statistics"."'Reference_Genome'" = 'mm9' or "epilims"."errbs_pipeline_statistics"."'Reference_Genome'" = 'mm10' or "epilims"."errbs_pipeline_statistics"."'Reference_Genome'" = 'rn4' or "epilims"."errbs_pipeline_statistics"."'Reference_Genome'" = 'rn6')
+GROUP BY "'million_total_reads'"
+ORDER BY "'million_total_reads'" ASC
