@@ -1,0 +1,11 @@
+select avg("source"."avg") AS "Human", "source"."Assay_type" as "Assay_type", "source"."count" as "count"
+FROM( SELECT (avg(cast("epilims"."errbs_pipeline_statistics"."'number_of_CpGs_covered_10x'" as float) / (cast("epilims"."errbs_pipeline_statistics"."'total_reads'" as int)/1000000))) as "avg", count(*) as "count", "epilims"."sequencing_requests"."'Library_Assay'" as "Assay_type"
+FROM "epilims"."errbs_pipeline_statistics"
+left join "epilims"."sequencing_requests"
+on "errbs_pipeline_statistics"."'iLab_Service_ID'" = "sequencing_requests"."'iLab_Service_ID'"
+WHERE ("epilims"."errbs_pipeline_statistics"."'total_reads'" <> 'NA' AND cast("epilims"."errbs_pipeline_statistics"."'total_reads'" as int) < 150000000 AND cast("epilims"."errbs_pipeline_statistics"."'total_reads'" as int) > 1000000
+    OR "epilims"."errbs_pipeline_statistics"."'total_reads'" IS NULL) AND "epilims"."errbs_pipeline_statistics"."'total_reads'" IS NOT NULL AND ("epilims"."errbs_pipeline_statistics"."'total_reads'" <> '' OR "epilims"."errbs_pipeline_statistics"."'total_reads'" IS NULL)
+    AND "epilims"."sequencing_requests"."'Library_Assay'" = 'RRBS' or "epilims"."sequencing_requests"."'Library_Assay'" = 'ERRBS' or "epilims"."sequencing_requests"."'Library_Assay'" = 'RRoxBS'
+    AND ("epilims"."errbs_pipeline_statistics"."'Reference_Genome'" = 'hg19' or "epilims"."errbs_pipeline_statistics"."'Reference_Genome'" = 'hg38' or "epilims"."sequencing_requests"."'Organism'" = 181773)
+GROUP BY "sequencing_requests"."'Library_Assay'") "source"
+group by "source"."avg", "source"."Assay_type", "source"."count"
