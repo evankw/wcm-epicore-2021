@@ -11,3 +11,4 @@
 # Week of 10/18: Successfully used left join to join data in sequencing_assays with errbs_pipeline. Greatly increased the number of values in human category and produced a much smoother graph. See graph3
 # Week of 11/1: Graphed CpG coverage with human ERRBS, RRBS, and RRoxBS data. RRoxBS yields consistently higher values at lower numbers of reads. 
 # Week of 11/8: Graphed normalized mouse RRBS, mouse RRoxBS, and all WGoxBS. Graphed unnormalized CpG coverage for human RRBS and ERRBS. 
+# Week of 11/22: Graphed average normalized CpG coverage for both mouse and human by assay type, as well as mapping efficiency by assay type. See graph4
