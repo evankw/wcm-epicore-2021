@@ -1,0 +1,11 @@
+select "source"."'million_total_reads'" as "'million_total_reads'", "source"."avg" AS "CpG count per million", "source"."count" as "count"
+FROM( SELECT (cast("epilims"."errbs_pipeline_statistics"."'total_reads'" as int)/1000000) AS "'million_total_reads'", avg((cast("epilims"."errbs_pipeline_statistics"."'number_of_CpGs_covered_10x'" as float)*1000000) / (cast("epilims"."errbs_pipeline_statistics"."'total_reads'" as int))) AS "avg", count(cast("epilims"."errbs_pipeline_statistics"."'total_reads'" as int)/1000000) as "count"
+FROM "epilims"."errbs_pipeline_statistics"
+WHERE ("epilims"."errbs_pipeline_statistics"."'total_reads'" <> 'NA' AND cast("epilims"."errbs_pipeline_statistics"."'total_reads'" as int) < 250000000 AND cast("epilims"."errbs_pipeline_statistics"."'total_reads'" as int) > 1000000
+    OR "epilims"."errbs_pipeline_statistics"."'total_reads'" IS NULL) AND "epilims"."errbs_pipeline_statistics"."'total_reads'" IS NOT NULL AND ("epilims"."errbs_pipeline_statistics"."'total_reads'" <> '' OR "epilims"."errbs_pipeline_statistics"."'total_reads'" IS NULL)
+   AND ("epilims"."errbs_pipeline_statistics"."'Reference_Genome'" = 'hg38' or "epilims"."errbs_pipeline_statistics"."'Reference_Genome'" = 'hg19')
+GROUP BY "'million_total_reads'"
+ORDER BY "'million_total_reads'" ASC) "source"
+where "source"."count" > 10 and "source"."'million_total_reads'" > 20 and "source"."'million_total_reads'" < 150
+group by "source"."'million_total_reads'", "source"."avg", "count"
+order by "'million_total_reads'" asc
