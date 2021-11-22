@@ -9,3 +9,5 @@
 # Week of 10/4: Graphed normalized CpG coverage per million reads with mouse (mm9 and mm10) genome, as well as with ERRBS sequencing.
 # Week of 10/11: Attempted to use joins to access data in sequencing_assays to complete missing or incomplete entries in errbs_pipeline. Graphed human ERRBS data and overlaid human and mouse graphs.
 # Week of 10/18: Successfully used left join to join data in sequencing_assays with errbs_pipeline. Greatly increased the number of values in human category and produced a much smoother graph. See graph3
+# Week of 11/1: Graphed CpG coverage with human ERRBS, RRBS, and RRoxBS data. RRoxBS yields consistently higher values at lower numbers of reads. 
+# Week of 11/8: Graphed normalized mouse RRBS, mouse RRoxBS, and all WGoxBS. Graphed unnormalized CpG coverage for human RRBS and ERRBS. 
